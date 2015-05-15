@@ -1,3 +1,14 @@
 #!/usr/bin/python
 import libpegcoder
+
 libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
+
+#setting up some ideas for my head, some perls syntax for my own head why I figure out the python way...
+#srcspace = os.getenv('PSRCSPACE', '~/media/')
+#workspace = os.getenv('PWRKSPACE', '/tmp/')
+#outfilename = argv.pop()
+#infilename = argv.pop()
+#print srcspace
+#print workspace
+#print infilename
+#print outfilename

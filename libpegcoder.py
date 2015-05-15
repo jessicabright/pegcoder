@@ -3,27 +3,28 @@
 #########
 #modules#
 #########
-import json, subprocess, shlex
+import os, subprocess, json, shlex
+from sys import argv
 ###########
 #functions#
 ###########
 def encode(encodejson):
+	#Setup our enviorment
+	optlibdir = os.getenv('POPTLIBDIR', '/usr/lib/pegcoder/optlibs/')
+	encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
+	srcspace = os.getenv('PSRCSPACE', '~/media/')
+	workspace = os.getenv('PWRKSPACE', '/tmp/')
+	outfilename = argv.pop()
+	infilename = argv.pop()
+	#Setup the command
 	myjson = json.loads(open(encodejson).read())
-	encodecmd = "ffmpeg"
-	#setup the inputfile first...
-	encodecmd = encodecmd + " -i " + myjson['workspace'] + myjson['infilename']
-	#now let's setup the bulk of our options, may have to think about how I'm pulling this in more later...
-	optlib = json.loads(open("/home/ubuntu/gitroot/pegcoder/optlibs/opt_" + myjson['encoder'] + ".json").read())
+	encodecmd = encodecmd + " -i " + workspace + infilename
+	optlib = json.loads(open(optlibdir + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
-	#the scale option is ugly, so I'll add it here
+	#The scale option is ugly, so we'll add it here
 	encodecmd = encodecmd + " -vf scale=" + myjson['scale']
-	#finally our output target
-	encodecmd = encodecmd + " " + myjson['workspace'] + myjson['outfilename']
-	#let's use the shlex module to clean things up for a non-shell subprocess
+	encodecmd = encodecmd + " " + workspace + outfilename
 	#print encodecmd  #make this a proper debug, info level?
+	#Run it here, cleaning things up with shlex
 	subprocess.check_call(shlex.split(encodecmd))
-
-def fetchin(myjson):
-	print myjson['srcspace']
-	print "Let's fetch some stuff based on some other stuff, but fakeing it for now"
