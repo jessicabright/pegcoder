@@ -13,7 +13,7 @@ def encode(encodejson):
 	#setup the inputfile first...
 	encodecmd = encodecmd + " -i " + myjson['workspace'] + myjson['infilename']
 	#now let's setup the bulk of our options, may have to think about how I'm pulling this in more later...
-	optlib = json.loads(open("/home/ubuntu/gitroot/snakes/optlibs/opt_" + myjson['encoder'] + ".json").read())
+	optlib = json.loads(open("/home/ubuntu/gitroot/pegcoder/optlibs/opt_" + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
 	#the scale option is ugly, so I'll add it here
