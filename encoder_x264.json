@@ -1,0 +1,13 @@
+{
+  "encoder": "libx264",
+  "audiocodec": "libfdk_aac",
+  "videobitrate": "256k",
+  "profile": "baseline",
+  "level" : "3.0",
+  "scale" : "640:480",
+  "threads": "0",
+  "srcspace": "/mnt/archive/",
+  "workspace": "/mnt/scratch/",
+  "infilename": "moneyinpolitics_F_04022015.mp4",
+  "outfilename": "moneyinpolitics_F_04022015-base.mpg"
+}

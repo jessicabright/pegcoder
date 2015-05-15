@@ -1,0 +1,10 @@
+{
+  "encoder": "-codec:v",
+  "audiocodec": "-codec:a",
+  "videobitrate": "-b:v",
+  "audiobitrate": "-b:a",
+  "preset": "-preset",
+  "strict": "-strict",
+  "x265-params": "-x265-params",
+  "threads": "-threads"
+}

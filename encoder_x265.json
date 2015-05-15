@@ -1,0 +1,15 @@
+{
+  "encoder": "libx265",
+  "audiocodec": "libfdk_aac",
+  "strict": "experimental",
+  "x265-params": "\"crf=28:profile=main:level=4.0\"",
+  "videobitrate": "256k",
+  "audiobitrate": "128k",
+  "preset": "medium",
+  "scale" : "640x480",
+  "threads": "0",
+  "srcspace": "/mnt/archive/",
+  "workspace": "/mnt/scratch/",
+  "infilename": "moneyinpolitics_F_04022015.mp4",
+  "outfilename": "moneyinpolitics_F_04022015-mainx265.mp4"
+}
