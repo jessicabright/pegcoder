@@ -25,6 +25,7 @@ def encode(encodejson):
 	#The scale option is ugly, so we'll add it here
 	encodecmd = encodecmd + " -vf scale=" + myjson['scale']
 	encodecmd = encodecmd + " " + workspace + outfilename
-	#print encodecmd  #make this a proper debug, info level?
-	#Run it here, cleaning things up with shlex
+	#print encodecmd  #make this a proper debug,  or log level info?
+	#Run it here, while cleaning things up with shlex first
 	subprocess.check_call(shlex.split(encodecmd))
+	#return (something)

@@ -2,6 +2,7 @@
   "encoder": "-codec:v",
   "audiocodec": "-codec:a",
   "videobitrate": "-b:v",
+  "audiobitrate": "-b:a",
   "profile": "-profile:v",
   "level" : "-level",
   "threads": "-threads"
