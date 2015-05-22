@@ -3,8 +3,7 @@
 #########
 #modules#
 #########
-import os, subprocess, json, shlex
-from sys import argv
+import os, sys, subprocess, json, shlex, fnmatch
 ###########
 #functions#
 ###########
@@ -29,3 +28,34 @@ def encode(encodejson):
 	#Run it here, while cleaning things up with shlex first
 	subprocess.check_call(shlex.split(encodecmd))
 	#return (something)
+
+#def xcodtgrts(xcodstatdb):
+#	
+#	mystat = subprocess.check_call('cat', 'xcodstatdb')
+
+def updtxcls(jsonls):
+	fileext = os.getenv('PFILEEXT', '*.mp4')
+	jfilext = os.getenv('PJFILEXT', '*.json')
+	achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
+	varpath = os.getenv('PVARPATH', '/var/lib/pegcoder/')
+	#with open(indpatf, 'w') as indfile
+	myjsonls = json.loads(open(jsonls).read())
+	#print json.dumps(myjsonls, indent=4, sort_keys=True)
+	for varpath, vardirs, varfile in os.walk(varpath):
+		for varfile in fnmatch.filter(varfile, jfilext):
+			statusjson = json.loads(open(os.path.join(varpath, varfile)).read())
+			print json.dumps(statusjson, indent=4, sort_keys=True)
+	#how can I avoid a nested loop here?-Need to compare all to all?	
+	for rootpath, dirnames, filenames in os.walk(achpath):
+		for curfile in fnmatch.filter(filenames, fileext):
+			xstatus = "pending"
+			#print(os.path.join(rootpath, curfile))
+			flpath = os.path.join(rootpath, curfile)
+			mycurstr = '{"' + flpath + '": "' + xstatus + '"}'
+			#print mycurstr
+			mycurjson = json.loads(mycurstr)
+			print json.dumps(mycurjson, indent=4, sort_keys=True)
+			#myjsonls.curfile = mycurjson
+			#myjsonls.append(mycurjson)
+	#print json.dumps(myjsonls, indent=4, sort_keys=True)
+
