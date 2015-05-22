@@ -42,7 +42,26 @@ def getcurfiles(achpath, fileext, curfilels):
 			curfilels.append(pathfile)
 	return curfilels
 
-
+def updtjsls(svarpath, jsonstatls, jstattemp, curfilels):
+	cflag = "True"
+	mytemplate = json.loads(open(jstattemp).read())
+	print mytemplate
+	for filename in curfilels:
+		for jsonobj in jsonstatls:
+			if jsonobj['file'] == filename:
+                                cflag = "False"
+                if cflag == "True":
+			mynewjson = mytemplate
+			mynewjson['file'] = filename
+			mypath, myfilename = os.path.split(filename)
+			newpathf = svarpath + myfilename + ".json"
+			print json.dumps(mynewjson, indent=4, sort_keys=True)
+			#with open(newpathf, 'w') as myoutfile:
+    			#	json.dump(mynewjson, myoutfile, indent=4)
+			#myoutfile.close()
+                        #create json file
+                cflag = "True"
+			
 def updtxcls(jsonls):
 	fileext = os.getenv('PFILEEXT', '*.mp4')
 	achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')

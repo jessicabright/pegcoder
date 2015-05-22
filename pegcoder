@@ -5,14 +5,18 @@ achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
 svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')
 fileext = os.getenv('PFILEEXT', '*.mp4')
 jfilext = os.getenv('PJFILEXT', '*.json')
+optlibdir = os.getenv('POPTLIBDIR', '/usr/lib/pegcoder/optlibs/')
+jstattemp = os.getenv('PJSTATTEMP', '/usr/lib/pegcoder/templates/status-template.json')
 #null setup
 jsonstatls = []
 curfilels = []
 #libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
 #libpegcoder.updtxcls("/home/ubuntu/gitroot/pegcoder/example_xcode_list.json")
-#returns jsonstatls
+#getstatus returns jsonstatls - list of current status of each file in json
 libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
-#returns curfilels
+#getcurfiles returns curfilels - list of each file currently in archive
 libpegcoder.getcurfiles(achpath, fileext, curfilels)
+#updtjsls updates json status store, should call getstatus agin after...
+libpegcoder.updtjsls(svarpath, jsonstatls, jstattemp, curfilels)
 #print jsonstatls
 #print curfilels
