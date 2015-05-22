@@ -1,5 +1,18 @@
 #!/usr/bin/python
-import libpegcoder
-
-libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
+import libpegcoder, os
+#read ENV from conf later, but with sane defaults?
+achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
+svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')
+fileext = os.getenv('PFILEEXT', '*.mp4')
+jfilext = os.getenv('PJFILEXT', '*.json')
+#null setup
+jsonstatls = []
+curfilels = []
+#libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
 #libpegcoder.updtxcls("/home/ubuntu/gitroot/pegcoder/example_xcode_list.json")
+#returns jsonstatls
+libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
+#returns curfilels
+libpegcoder.getcurfiles(achpath, fileext, curfilels)
+#print jsonstatls
+#print curfilels
