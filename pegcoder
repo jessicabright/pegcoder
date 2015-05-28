@@ -1,37 +1,30 @@
 #!/usr/bin/python
 import libpegcoder, os
 #read ENV from conf later, but with sane defaults?
-achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
+achpath = os.getenv('PACHPATH', '/usr/lib/pegcoder/archive')
+workspace = os.getenv('PWRKSPACE', '/usr/lib/pegcoder/scratch')
 svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')
 susrpath = os.getenv('PSUSRPATH', '/usr/lib/pegcoder/')
 fileext = os.getenv('PFILEEXT', '*.mp4')
 jfilext = os.getenv('PJFILEXT', '*.json')
-jstattemp = os.getenv('PJSTATTEMP', '/usr/lib/pegcoder/templates/status-template.json')
 encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
-srcspace = os.getenv('PSRCSPACE', '~/media/')
-workspace = os.getenv('PWRKSPACE', '/tmp/')
 #Going to wrap up my env into setting dict so I can pass to functions easily as needed
-settings = {'achpath': achpath, 'svarpath': svarpath, 'susrpath': susrpath, 'fileext': fileext, 'jfilext': jfilext, 'jstattemp': jstattemp, 'encodecmd': encodecmd, 'srcspace': srcspace, 'workspace': workspace}
-#null setup
+settings = {'achpath': achpath, 'svarpath': svarpath, 'susrpath': susrpath, 'fileext': fileext, 'jfilext': jfilext, 'encodecmd': encodecmd, 'workspace': workspace}
+#null list setup for first function runs
 jsonstatls = []
 curfilels = []
 #
 orgls = ['cctv']
-#libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
-#libpegcoder.updtxcls("/home/ubuntu/gitroot/pegcoder/example_xcode_list.json")
-#Lets just setup a simple system for now
-
 
 #getstatus returns jsonstatls - list of current status of each file in json
-libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
+libpegcoder.getstatus(settings, jsonstatls)
 #getcurfiles returns curfilels - list of each file currently in archive
-libpegcoder.getcurfiles(achpath, fileext, curfilels)
+libpegcoder.getcurfiles(settings, curfilels)
 #updtjsls updates json status store, should call getstatus agin after...
-libpegcoder.updtjsls(svarpath, jsonstatls, jstattemp, curfilels)
+libpegcoder.updtjsls(settings, jsonstatls, curfilels)
 #Update jsonstatls
-libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
+libpegcoder.getstatus(settings, jsonstatls)
 
+#start encoder based on org...
 for org in orgls:
-	libpegcoder.chkupencode(jsonstatls, encodecmd, susrpath, org, workspace)
-#print jsonstatls
-#print curfilels
+	libpegcoder.chkupencode(settings, jsonstatls, org)

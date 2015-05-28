@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#Example for making a well behaved daemon
 import time
 from daemon import runner
 

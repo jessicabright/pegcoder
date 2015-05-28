@@ -1,0 +1,10 @@
+{
+  "encoder": "libx264",
+  "audiocodec": "libfdk_aac",
+  "audiobitrate": "128k",
+  "videobitrate": "768k",
+  "profile": "main",
+  "level" : "4.0",
+  "scale" : "720:1280",
+  "threads": "0"
+}

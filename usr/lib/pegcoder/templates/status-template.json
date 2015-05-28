@@ -1,0 +1,9 @@
+{
+  "file": "/dev/null",
+  "status-vod": "pending",
+  "upload-vod": "pending",
+  "encoder-vod": "x264",
+  "status-playback": "pending",
+  "upload-playback": "pending",
+  "encoder-playback": "x264"
+}
