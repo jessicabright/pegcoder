@@ -3,38 +3,36 @@
 #########
 #modules#
 #########
-import os, sys, subprocess, json, shlex, fnmatch
+import os, sys, io, subprocess, json, shlex, fnmatch
 ###########
 #functions#
 ###########
-def encode(encodejson):
-	#Setup our enviorment
-	optlibdir = os.getenv('POPTLIBDIR', '/usr/lib/pegcoder/optlibs/')
-	encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
-	srcspace = os.getenv('PSRCSPACE', '~/media/')
-	workspace = os.getenv('PWRKSPACE', '/tmp/')
-	outfilename = argv.pop()
-	infilename = argv.pop()
+def encode(encodejson, encodecmd, infilename, susrpath, org, optlibdir, workspace):
+	outfilename = os.path.basename(infilename)
+	#infilename = argv.pop()
 	#Setup the command
-	myjson = json.loads(open(encodejson).read())
-	encodecmd = encodecmd + " -i " + workspace + infilename
+	encodejsonpathd = susrpath + "encoders/" + encodejson
+	myjson = json.loads(open(encodejsonpathd).read())
+	encodecmd = encodecmd + " -i " + infilename
 	optlib = json.loads(open(optlibdir + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
 	#The scale option is ugly, so we'll add it here
 	encodecmd = encodecmd + " -vf scale=" + myjson['scale']
 	encodecmd = encodecmd + " " + workspace + outfilename
-	#print encodecmd  #make this a proper debug,  or log level info?
+	print encodecmd  #make this a proper debug,  or log level info?
 	#Run it here, while cleaning things up with shlex first
-	subprocess.check_call(shlex.split(encodecmd))
+	#subprocess.check_call(shlex.split(encodecmd))
 	#return (something)
 
+#get status from exsisting status json
 def getstatus(svarpath, jfilext, jsonstatls):
 	for mysvarpath, vardirs, varfile in os.walk(svarpath):
                 for varfile in fnmatch.filter(varfile, jfilext):
                         jsonstatls.append(json.loads(open(os.path.join(mysvarpath, varfile)).read()))
         return jsonstatls
 
+#get list of all current mp4 files
 def getcurfiles(achpath, fileext, curfilels):
 	for rootpath, dirnames, filenames in os.walk(achpath):
 		for curfile in fnmatch.filter(filenames, fileext):
@@ -42,42 +40,35 @@ def getcurfiles(achpath, fileext, curfilels):
 			curfilels.append(pathfile)
 	return curfilels
 
+#update status json files
 def updtjsls(svarpath, jsonstatls, jstattemp, curfilels):
 	cflag = "True"
 	mytemplate = json.loads(open(jstattemp).read())
-	print mytemplate
 	for filename in curfilels:
 		for jsonobj in jsonstatls:
 			if jsonobj['file'] == filename:
-                                cflag = "False"
-                if cflag == "True":
+				cflag = "False"
+		if cflag == "True":
 			mynewjson = mytemplate
 			mynewjson['file'] = filename
 			mypath, myfilename = os.path.split(filename)
 			newpathf = svarpath + myfilename + ".json"
-			print json.dumps(mynewjson, indent=4, sort_keys=True)
-			#with open(newpathf, 'w') as myoutfile:
-    			#	json.dump(mynewjson, myoutfile, indent=4)
-			#myoutfile.close()
-                        #create json file
-                cflag = "True"
+			with open(newpathf, 'w') as myoutfile:
+				json.dump(mynewjson, myoutfile)
+		cflag = "True"
+		
+###Think I need to buildthe daemonish logic here at some point, keep it in this function for now...
+def chkupencode(jsonstatls, encodecmd, susrpath, org, optlibdir, workspace):
+	for jsonobj in jsonstatls:
+		infilename = jsonobj['file']
+		if jsonobj['status-playback'] == "pending":
+			infilename = jsonobj['file']
+			encodefile = org + ".pb." + jsonobj['encoder-playback'] + ".json"
+			encode(encodefile, encodecmd, infilename, susrpath, org, optlibdir, workspace)
+		elif jsonobj['status-vod'] == "pending":
+			outfilename = org + ".vod." + jsonobj['file']
+			print "vod pending run..."
 			
-def updtxcls(jsonls):
-	fileext = os.getenv('PFILEEXT', '*.mp4')
-	achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
-	#with open(indpatf, 'w') as indfile
-	#myjsonls = json.loads(open(jsonls).read())
-	#print json.dumps(myjsonls, indent=4, sort_keys=True)
-	for rootpath, dirnames, filenames in os.walk(achpath):
-		for curfile in fnmatch.filter(filenames, fileext):
-			xstatus = "pending"
-			#print(os.path.join(rootpath, curfile))
-			flpath = os.path.join(rootpath, curfile)
-			mycurstr = '{"' + flpath + '": "' + xstatus + '"}'
-			#print mycurstr
-			mycurjson = json.loads(mycurstr)
-			#print json.dumps(mycurjson, indent=4, sort_keys=True)
-			#myjsonls.curfile = mycurjson
-			#myjsonls.append(mycurjson)
-	#print json.dumps(myjsonls, indent=4, sort_keys=True)
+			
+			
 

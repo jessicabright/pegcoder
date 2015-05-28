@@ -3,20 +3,35 @@ import libpegcoder, os
 #read ENV from conf later, but with sane defaults?
 achpath = os.getenv('PACHPATH', '/mnt/archive-rsync/archive/')
 svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')
+susrpath = os.getenv('PSUSRPATH', '/usr/lib/pegcoder/')
 fileext = os.getenv('PFILEEXT', '*.mp4')
 jfilext = os.getenv('PJFILEXT', '*.json')
 optlibdir = os.getenv('POPTLIBDIR', '/usr/lib/pegcoder/optlibs/')
 jstattemp = os.getenv('PJSTATTEMP', '/usr/lib/pegcoder/templates/status-template.json')
+encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
+srcspace = os.getenv('PSRCSPACE', '~/media/')
+workspace = os.getenv('PWRKSPACE', '/tmp/')
+#Should wrap env into objects and call object values from single env to functions.... later
 #null setup
 jsonstatls = []
 curfilels = []
+#
+orgls = ['cctv']
 #libpegcoder.encode("/home/ubuntu/gitroot/pegcoder/encoder_x264.json")
 #libpegcoder.updtxcls("/home/ubuntu/gitroot/pegcoder/example_xcode_list.json")
+#Lets just setup a simple system for now
+
+
 #getstatus returns jsonstatls - list of current status of each file in json
 libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
 #getcurfiles returns curfilels - list of each file currently in archive
 libpegcoder.getcurfiles(achpath, fileext, curfilels)
 #updtjsls updates json status store, should call getstatus agin after...
 libpegcoder.updtjsls(svarpath, jsonstatls, jstattemp, curfilels)
+#Update jsonstatls
+libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
+
+for org in orgls:
+	libpegcoder.chkupencode(jsonstatls, encodecmd, susrpath, org, optlibdir, workspace)
 #print jsonstatls
 #print curfilels
