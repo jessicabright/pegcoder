@@ -7,14 +7,14 @@ import os, sys, io, subprocess, json, shlex, fnmatch
 ###########
 #functions#
 ###########
-def encode(encodejson, encodecmd, infilename, susrpath, org, optlibdir, workspace):
+def encode(encodejson, encodecmd, infilename, susrpath, org, workspace):
 	outfilename = os.path.basename(infilename)
 	#infilename = argv.pop()
 	#Setup the command
 	encodejsonpathd = susrpath + "encoders/" + encodejson
 	myjson = json.loads(open(encodejsonpathd).read())
 	encodecmd = encodecmd + " -i " + infilename
-	optlib = json.loads(open(optlibdir + myjson['encoder'] + ".json").read())
+	optlib = json.loads(open(susrpath + "optlibs/" + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
 	#The scale option is ugly, so we'll add it here
@@ -58,13 +58,13 @@ def updtjsls(svarpath, jsonstatls, jstattemp, curfilels):
 		cflag = "True"
 		
 ###Think I need to buildthe daemonish logic here at some point, keep it in this function for now...
-def chkupencode(jsonstatls, encodecmd, susrpath, org, optlibdir, workspace):
+def chkupencode(jsonstatls, encodecmd, susrpath, org, workspace):
 	for jsonobj in jsonstatls:
 		infilename = jsonobj['file']
 		if jsonobj['status-playback'] == "pending":
 			infilename = jsonobj['file']
 			encodefile = org + ".pb." + jsonobj['encoder-playback'] + ".json"
-			encode(encodefile, encodecmd, infilename, susrpath, org, optlibdir, workspace)
+			encode(encodefile, encodecmd, infilename, susrpath, org, workspace)
 		elif jsonobj['status-vod'] == "pending":
 			outfilename = org + ".vod." + jsonobj['file']
 			print "vod pending run..."

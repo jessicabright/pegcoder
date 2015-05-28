@@ -6,12 +6,12 @@ svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')
 susrpath = os.getenv('PSUSRPATH', '/usr/lib/pegcoder/')
 fileext = os.getenv('PFILEEXT', '*.mp4')
 jfilext = os.getenv('PJFILEXT', '*.json')
-optlibdir = os.getenv('POPTLIBDIR', '/usr/lib/pegcoder/optlibs/')
 jstattemp = os.getenv('PJSTATTEMP', '/usr/lib/pegcoder/templates/status-template.json')
 encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
 srcspace = os.getenv('PSRCSPACE', '~/media/')
 workspace = os.getenv('PWRKSPACE', '/tmp/')
-#Should wrap env into objects and call object values from single env to functions.... later
+#Going to wrap up my env into setting dict so I can pass to functions easily as needed
+settings = {'achpath': achpath, 'svarpath': svarpath, 'susrpath': susrpath, 'fileext': fileext, 'jfilext': jfilext, 'jstattemp': jstattemp, 'encodecmd': encodecmd, 'srcspace': srcspace, 'workspace': workspace}
 #null setup
 jsonstatls = []
 curfilels = []
@@ -32,6 +32,6 @@ libpegcoder.updtjsls(svarpath, jsonstatls, jstattemp, curfilels)
 libpegcoder.getstatus(svarpath, jfilext, jsonstatls)
 
 for org in orgls:
-	libpegcoder.chkupencode(jsonstatls, encodecmd, susrpath, org, optlibdir, workspace)
+	libpegcoder.chkupencode(jsonstatls, encodecmd, susrpath, org, workspace)
 #print jsonstatls
 #print curfilels
