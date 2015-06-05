@@ -2,6 +2,7 @@
   "encoder": "libx264",
   "audiocodec": "libfdk_aac",
   "audiobitrate": "128k",
+  "audiochannels": "2",
   "videobitrate": "768k",
   "vbitolerance": "768k",
   "framerate": "30000/1001",

@@ -6,5 +6,5 @@
   "encoder-vod": "x264",
   "status-playback": "pending",
   "upload-playback": "pending",
-  "encoder-playback": "x264"
+  "encoder-playback": "mpeg2video"
 }

@@ -6,7 +6,5 @@
   "framerate": "-r",
   "audiobitrate": "-b:a",
   "audiochannels": "-ac",
-  "profile": "-profile:v",
-  "level" : "-level",
   "threads": "-threads"
 }
