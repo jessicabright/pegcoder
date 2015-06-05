@@ -2,6 +2,8 @@
   "encoder": "-codec:v",
   "audiocodec": "-codec:a",
   "videobitrate": "-b:v",
+  "vbitolerance": "-bt",
+  "framerate": "-r",
   "audiobitrate": "-b:a",
   "profile": "-profile:v",
   "level" : "-level",

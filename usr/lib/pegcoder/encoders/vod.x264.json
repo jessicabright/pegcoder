@@ -3,8 +3,11 @@
   "audiocodec": "libfdk_aac",
   "audiobitrate": "128k",
   "videobitrate": "768k",
+  "vbitolerance": "768k",
+  "framerate": "30000/1001",
   "profile": "main",
   "level" : "4.0",
   "scale" : "720:1280",
+  "deinterlace": "True",
   "threads": "0"
 }

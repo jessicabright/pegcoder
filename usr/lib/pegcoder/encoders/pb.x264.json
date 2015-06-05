@@ -1,0 +1,13 @@
+{
+  "encoder": "libx264",
+  "audiocodec": "libfdk_aac",
+  "audiobitrate": "128k",
+  "framerate": "30000/1001",
+  "videobitrate": "256k",
+  "vbitolerance": "256k",
+  "profile": "main",
+  "level" : "4.0",
+  "scale" : "240:320",
+  "threads": "0",
+  "deinterlace": "-deinterlace"
+}

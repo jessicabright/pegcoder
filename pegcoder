@@ -10,21 +10,18 @@ jfilext = os.getenv('PJFILEXT', '*.json')
 encodecmd = os.getenv('PENCODECMD', 'ffmpeg')
 #Going to wrap up my env into setting dict so I can pass to functions easily as needed
 settings = {'achpath': achpath, 'svarpath': svarpath, 'susrpath': susrpath, 'fileext': fileext, 'jfilext': jfilext, 'encodecmd': encodecmd, 'workspace': workspace}
-#null list setup for first function runs
-jsonstatls = []
-curfilels = []
-#
-orgls = ['cctv']
+#orgls = ['cctv', 'lcatv']
 
 #getstatus returns jsonstatls - list of current status of each file in json
-libpegcoder.getstatus(settings, jsonstatls)
+jsonstatls = libpegcoder.getstatus(settings)
 #getcurfiles returns curfilels - list of each file currently in archive
-libpegcoder.getcurfiles(settings, curfilels)
+curfilels = libpegcoder.getcurfiles(settings)
 #updtjsls updates json status store, should call getstatus agin after...
 libpegcoder.updtjsls(settings, jsonstatls, curfilels)
 #Update jsonstatls
-libpegcoder.getstatus(settings, jsonstatls)
+jsonstatls = libpegcoder.getstatus(settings)
 
-#start encoder based on org...
-for org in orgls:
-	libpegcoder.chkupencode(settings, jsonstatls, org)
+#Check json, encode based on jsonstatls
+libpegcoder.chkupencode(settings, jsonstatls)
+
+libpegcoder.updtjsls(settings, jsonstatls, curfilels)

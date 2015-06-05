@@ -1,5 +1,6 @@
 {
   "file": "/dev/null",
+  "json": "/dev/null",
   "status-vod": "pending",
   "upload-vod": "pending",
   "encoder-vod": "x264",
