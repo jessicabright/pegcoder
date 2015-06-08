@@ -1,6 +1,8 @@
 {
-  "encoder": "-codec:v",
+  "encoder": "-f",
   "audiocodec": "-codec:a",
+  "bvop": "-bf",
+  "videoprofile": "-profile:v",
   "videobitrate": "-b:v",
   "vbitolerance": "-bt",
   "framerate": "-r",
