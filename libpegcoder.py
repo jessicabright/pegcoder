@@ -15,11 +15,6 @@ def encode(settings, encodefile, infilename):
 	optlib = json.loads(open(settings['susrpath'] + "optlibs/" + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
-	encodecmd = encodecmd + " -vf scale=" + myjson['scale']
-	if myjson['deinterlace'] == "True":
-		encodecmd = encodecmd + " -deinterlace"
-#	if myjson['vpre'] == "True":
-#		encodecmd = encodecmd + " -vpre" + myjson['vprefile']
 	encodecmd = encodecmd + " " + settings['workspace'] + settings['targettype'] + "-" + outfilename
 	#print encodecmd  #make this a proper debug,  or log level info?
 	subprocess.check_call(shlex.split(encodecmd))
