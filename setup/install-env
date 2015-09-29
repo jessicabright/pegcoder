@@ -1,0 +1,10 @@
+export DAEMONUSER=pegcoder
+export PACHPATH=/usr/lib/pegcoder/archive/
+export PWRKSPACE=/usr/lib/pegcoder/scratch/
+export PSVARPATH=/var/lib/pegcoder/
+export PSUSRPATH=/usr/lib/pegcoder/
+export PFILEEXT=*.mp4
+export PJFILEXT=*.json
+export PENCODECMD=ffmpeg
+export PYTHONPATH=/usr/lib/pegcoder/
+export INSTALLPATH=/usr/bin/
