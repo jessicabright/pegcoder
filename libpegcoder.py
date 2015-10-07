@@ -19,8 +19,8 @@ def encode(settings, encodefile, infilename):
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
 	encodecmd = encodecmd + " " + settings['workspace'] + settings['targettype'] + "-" + outfilename
-	print encodecmd  #make this a proper debug,  or log level info?
-	#subprocess.check_call(shlex.split(encodecmd))
+	#print encodecmd  #make this a proper debug,  or log level info?
+	subprocess.check_call(shlex.split(encodecmd))
 	#check on status of ffmpeg or file or mediainfo and return something like 'encoded'?
 	#return (something)
 
