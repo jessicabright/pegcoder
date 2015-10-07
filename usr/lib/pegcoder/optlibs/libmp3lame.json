@@ -1,0 +1,6 @@
+{
+  "encoder": "-acodec",
+  "ac": "-ac",
+  "qscale:a": "-qscale:a",
+  "ar": "-ar"
+}

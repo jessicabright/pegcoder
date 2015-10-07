@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import libpegcoder, os
-#read ENV from conf later, but with sane defaults?
 achpath = os.getenv('PACHPATH', '/usr/lib/pegcoder/archive')
 workspace = os.getenv('PWRKSPACE', '/usr/lib/pegcoder/scratch')
 svarpath = os.getenv('PSVARPATH', '/var/lib/pegcoder/')

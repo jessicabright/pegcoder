@@ -8,16 +8,19 @@ import os, sys, io, subprocess, json, shlex, fnmatch
 #functions#
 ###########
 def encode(settings, encodefile, infilename):
+	#print settings['targettype']
 	outfilename = os.path.basename(infilename)
 	encodejsonpathd = settings['susrpath'] + "encoders/" + encodefile
 	myjson = json.loads(open(encodejsonpathd).read())
 	encodecmd = settings['encodecmd'] + " -i " + infilename
+	if settings['targettype'] == "audio":
+		encodecmd = encodecmd + " -vn"
 	optlib = json.loads(open(settings['susrpath'] + "optlibs/" + myjson['encoder'] + ".json").read())
 	for opt in optlib:
 		encodecmd = encodecmd + " " + optlib[opt] + " " + myjson[opt]
 	encodecmd = encodecmd + " " + settings['workspace'] + settings['targettype'] + "-" + outfilename
-	#print encodecmd  #make this a proper debug,  or log level info?
-	subprocess.check_call(shlex.split(encodecmd))
+	print encodecmd  #make this a proper debug,  or log level info?
+	#subprocess.check_call(shlex.split(encodecmd))
 	#check on status of ffmpeg or file or mediainfo and return something like 'encoded'?
 	#return (something)
 
@@ -72,5 +75,12 @@ def chkupencode(settings, jsonstatls):
 			encodefile = "vod." + jsonobj['encoder-vod'] + ".json"
 			encode(settings, encodefile, infilename)
 			jsonobj['status-vod'] = "processed"
+			with open(jsonobj['json'], 'w') as myoutfile:
+				json.dump(jsonobj, myoutfile)
+		if jsonobj['status-audio'] == "pending":
+			settings['targettype'] = "audio"
+			encodefile = "vbr." + jsonobj['encoder-audio'] + ".json"
+			encode(settings, encodefile, infilename)
+			jsonobj['status-playback'] = "processed"
 			with open(jsonobj['json'], 'w') as myoutfile:
 				json.dump(jsonobj, myoutfile)

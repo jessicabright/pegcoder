@@ -5,3 +5,4 @@ export PSUSRPATH=./usr/lib/pegcoder/
 export PFILEEXT=*.mp4
 export PJFILEXT=*.json
 export PENCODECMD=ffmpeg
+export PYTHONPATH=.
